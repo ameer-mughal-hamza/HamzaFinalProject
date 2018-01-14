@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,18 +21,46 @@ import java.util.SimpleTimeZone;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int REQ_CODE_SPEECH_OUTPUT = 143;
-    Button openMic;
-    TextView voice;
+    ImageView btnSpeak;
+    TextView txvResult;
+    ImageView loadOne, loadTwo, loadThree;
+    public static final String LOAD_ONE = "load one";
+    public static final String LOAD_TWO = "load two";
+    public static final String LOAD_THREE = "load three";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        openMic = findViewById(R.id.openMic);
-        voice = findViewById(R.id.voice);
+        btnSpeak = findViewById(R.id.btnSpeak);
+        txvResult = findViewById(R.id.txvResult);
+        loadOne = findViewById(R.id.loadOne);
+        loadTwo = findViewById(R.id.loadTwo);
+        loadThree = findViewById(R.id.loadThree);
 
-        openMic.setOnClickListener(new View.OnClickListener() {
+        loadOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txvResult.setText(LOAD_ONE);
+            }
+        });
+
+        loadTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txvResult.setText(LOAD_TWO);
+            }
+        });
+
+        loadThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txvResult.setText(LOAD_THREE);
+            }
+        });
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 open();
@@ -59,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             case REQ_CODE_SPEECH_OUTPUT:
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> voiceInText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    voice.setText(voiceInText.get(0));
+                    txvResult.setText(voiceInText.get(0));
                 }
                 break;
             default:
